@@ -51,7 +51,7 @@ authRoute.get('/signIn', async (req, res) => {
       userData._id = userData._id.toString();
       userData.createdAt = userData.createdAt.toString();
       const accessToken = jwt.sign(userData, process.env.TOKEN_ACCESS_KEY, {
-        expiresIn: '2s',
+        expiresIn: '30s',
       });
 
       const refreshToken = jwt.sign(userData, process.env.TOKEN_REFRESH_KEY);
@@ -123,7 +123,7 @@ authRoute.get('/refresh-token', async (req, res) => {
             .json({ type: 'expired', message: 'Token expired' });
         }
         const newAccessToken = jwt.sign(data, process.env.TOKEN_ACCESS_KEY, {
-          expiresIn: '2s',
+          expiresIn: '30s',
         });
         const newRefreshToken = jwt.sign(data, process.env.TOKEN_REFRESH_KEY);
         await TokenModel.create({ token: newRefreshToken }, (err) => {
