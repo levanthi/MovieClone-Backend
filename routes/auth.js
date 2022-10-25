@@ -62,7 +62,6 @@ authRoute.get('/signIn', async (req, res) => {
           console.log('save token to DB!');
         }
       });
-      console.log(refreshToken);
       res
         // .cookie('refreshToken', 'Bearer ' + refreshToken, {
         //   httpOnly: true,
@@ -87,7 +86,7 @@ authRoute.get('/logout', async (req, res) => {
   }
   try {
     if (!refreshToken) {
-      refreshToken = req.query.refreshToken;
+      refreshToken = req.query.refreshToken.split(' ')[1];
     }
 
     const result = await TokenModel.deleteOne({ token: refreshToken });
@@ -109,7 +108,7 @@ authRoute.get('/refresh-token', async (req, res) => {
   }
   try {
     if (!refreshToken) {
-      refreshToken = req.query.refreshToken;
+      refreshToken = req.query.refreshToken.split(' ')[1];
     }
     jwt.verify(
       refreshToken,
